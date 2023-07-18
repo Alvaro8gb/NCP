@@ -2,6 +2,8 @@ from ncp.post.Normalizer import Normalizer
 from datetime import datetime
 
 class Struct:
+    def __init__(self, good_values_path) -> None:
+        self.good_values_path = good_values_path
     
     def struct(self, ehr:str, text:str, ents:dict, creation_date=str(datetime.now())):
         start = 0
@@ -40,7 +42,7 @@ class Struct:
                 n_diags+=1
 
         if n_diags > 0:
-            hz = Normalizer()
+            hz = Normalizer(self.good_values_path)
             diags = hz.normalize(diags)
             ehr_info = { "ehr": ehr,  "creation_date": creation_date , "text": text, "diags": diags, "neg_uncert": neg_uncert_labels}
 

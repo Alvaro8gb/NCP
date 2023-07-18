@@ -2,7 +2,7 @@ from ncp.post.ent_normalizers.I_Normalize import I_Normalize
 import ncp.post.string_similarity as ssim
 import regex as re
 
-class Tnm_Normalize(I_Normalize):
+class TnmNormalize(I_Normalize):
 
     def __init__(self) -> None:
         super().__init__()
@@ -145,3 +145,84 @@ class Tnm_Normalize(I_Normalize):
             #  + r"(V(?P<"++">(0|1|1a|1b|1ab|2|X)(C[1-5])?))|" # invasion into vein
             #  + r"(LYM(?P<"++">(\(?[0-9]\\?[0-9][0-9]\)?)(C[1-5])?)) "
             re.X | re.IGNORECASE)
+
+class MolecNormalize(I_Normalize):
+
+    def __split(self, text):
+        text = re.sub(r"([^ ,\.;:]*)([,\.;:])([^ ,\.;:]*)", r"\1 \2 \3", text)
+
+        text = re.sub(r"\(([^ ]*)\)", r"\( \1 \)", text)
+        text = re.sub(r"\(([^ ]*)", r"\( \1 ", text)
+        text = re.sub(r"([^ ]*)\)", r" \1 \)", text)
+
+        text = re.sub(r"rec[a-z]* hor[a-z]*", r"rh", text)
+        text = re.sub(r"her[-]*[2]*[^ \+\-]*", r"her2", text)
+
+        text = re.sub(r"(ki)( )*([^ 67])", r"ki67 \3", text)
+        text = re.sub(r"(ki)( )*(67)([^ ]*)", r"ki67 \4", text)
+        text = re.sub(r"(rey)([^ ])", r"re y \2", text)
+        text = re.sub(r"(ryp)([^ ])", r"re y \2", text)
+
+        text = re.sub(r"([a-z]+)(\d+(\.\d+)?%)", r" \1 \2 ", text)
+        text = re.sub(r"(\d+(\.\d+)?\-\d+(\.\d+)?%)", r" \1 ", text)
+
+        text = re.sub(r"(^[^ ]*)\-", r"\1 -", text)
+        text = re.sub(r"(^[^ ]*)\+", r"\1 +", text) 
+
+        return text.split()
+        
+
+    def normalize(self, markers:list):
+        normalized = {}
+
+        for marker in markers:
+
+            mdict = {
+                "numerico": "",
+                "estado": ""
+            }
+
+            mlist = self.__split(marker)
+
+            for elem in mlist:
+                elem = re.sub(r"pos[a-z]*", r"+", elem)
+                elem = re.sub(r"neg[a-z]*", r"-", elem)
+                elem = re.sub(r"estr[a-z]*", r"re", elem)
+                elem = re.sub(r"prog[a-z]*", r"rp", elem)
+
+                if elem == "e":
+                    elem = "re"
+                if elem == "p":
+                    elem = "rp"
+
+                if elem in ["re", "rp", "her2", "ki67"]:
+                    normalized[elem] = mdict
+                if elem == "rh":
+                    normalized["re"] = mdict
+                    normalized["rp"] = mdict
+                if elem[len(elem) - 1] == "%" or elem.isnumeric():
+                    mdict["numerico"] = elem
+                if elem in ["+", "-"]:
+                    mdict["estado"] = elem
+
+        return normalized
+
+
+class GradeNormalizer(I_Normalize):
+
+    def normalize(grade_list:list):
+        if len(grade_list) == 1:
+        
+            numeros = re.findall(r'\d+', grade_list[0])
+    
+            if len(numeros) == 1:
+                grado = numeros[1]
+
+                if grado >=1 and grado <= 3:
+                    return numeros[1]
+            else:
+                print(grade_list)
+                pass
+        else:
+            print(grade_list)
+            pass
