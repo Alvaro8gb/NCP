@@ -2,7 +2,6 @@
     "acronimos": [
         ["ca","cancer"],
         ["rt", "radioterapia"],
-        ["fec","fotoquimioterapia extracorporea"],
         ["qt", "quimioterapia"],
         ["ht", "hormonoterapia"],
         ["cse", "cuadrante superior externo"],
@@ -39,7 +38,7 @@
         ["rt", "radioterapia"],
         ["rrhh", "receptores hormonales"],
         ["dtx","docetaxel"],
-        ["pte", "pendiente"]
-
+        ["pte", "pendiente"],
+        ["bag", "biopsia con aguja gruesa"]
     ]
 }

@@ -5,12 +5,14 @@ from ncp.modules import NCP_single
 MAMA_MODEL_PATH = "ncp/models/clinical"
 NEG_UNCERT_MODEL_PATH = "ncp/models/neg-uncert"
 ACRONYMS = "ncp/pre/acronimos.json"
+GOOD_VALUES = "ncp/post/ent_normalizers/good_values.json"
+
 
 PORT = 8000
 
 app = Flask(__name__)
 
-nlp = NCP_single(ACRONYMS, MAMA_MODEL_PATH, NEG_UNCERT_MODEL_PATH)
+nlp = NCP_single(ACRONYMS, GOOD_VALUES, MAMA_MODEL_PATH, NEG_UNCERT_MODEL_PATH)
 
 # Ruta principal
 @app.route('/', methods=['GET'])
