@@ -39,6 +39,7 @@
         ["rrhh", "receptores hormonales"],
         ["dtx","docetaxel"],
         ["pte", "pendiente"],
-        ["bag", "biopsia con aguja gruesa"]
+        ["bag", "biopsia con aguja gruesa"],
+        ["qmt", "quimioterapia"]
     ]
 }
