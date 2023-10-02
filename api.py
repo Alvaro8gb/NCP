@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, render_template
 
-from ncp.modules import NCP_single
+from ncp.pipelines import NCP_single
 
 MAMA_MODEL_PATH = "ncp/models/clinical"
 NEG_UNCERT_MODEL_PATH = "ncp/models/neg-uncert"

@@ -1,4 +1,4 @@
-from ncp.modules import NCP_single
+from ncp.pipelines import NCP_single
 
 model = NCP_single("ncp/pre/acronimos.json", "ncp/models/")
 
