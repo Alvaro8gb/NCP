@@ -5,48 +5,59 @@ from spacy.tokens import Doc
 from typing import List
 from models import Event
 
+DIAG_ENTS = {'CANCER_EXP', 'CANCER_GRADE', 'CANCER_INTRTYPE', 'CANCER_LOC','CANCER_TYPE', 'CANCER_SUBTYPE'} 
+TRAT_ENTS = {'TRAT', 'TRAT_DRUG', 'TRAT_FREQ', 'TRAT_INTERVAL', 'TRAT_QUANTITY', 'TRAT_SHEMA'}
+
 class Struct:
     def __init__(self, good_values_path) -> None:
         self.good_values_path = good_values_path
         
     def serialize(self, doc_clinical:Doc)-> List[dict]:
-        elems = 0
-        diag = {}
-        diags = []
+        diag = None
+        trat = None
+        events = []
+        concepts = {}
         
         for ent in doc_clinical.ents:
-            if ent.label_ in diag.keys():
-                if ent.label_ == "CANCER_CONCEPT" and len(diag["CANCER_CONCEPT"]) == 1:
-                    diags.append(diag)
+            label = ent.label_
+            if label == "CANCER_CONCEPT":
 
-                    diag = {ent.label_ : [ent.text]}
-                    elems = 1
-                    print(diag)
-                else:
-                    diag[ent.label_].append(ent.text)
-                    elems+=1
+                if diag != None:
+                    concepts["CANCER_DIAG"] = diag 
+                    events
 
-        
+                diag = {"CANCER_CONCEPT" : ent.text }
+
+            elif label == "TRAT":
+                
+                if trat == None:
+                    concepts{"CANCER_TRAT":trat})
+
+                diag = {"CANCER_CONCEPT" : ent.text }                   
+                
+            elif label in DIAG_ENTS:
+                if diag != None:
+                    diag[label] = ent.text 
+
+            elif label in TRAT_ENTS:
+                if trat != None:
+                    diag[label] = ent.text 
             else:
-                diag[ent.label_] = [ent.text]
-                elems+=1
+                concepts.append({label:ent.text})
         
-        if elems > 0:
-            diags.append(diag)
-        
-        return diags
+        return concepts
 
     def struct(self, doc_clinical:Doc, creation_date=str(datetime.now()))-> List[Event]:
         
-        diags = self.serialize(doc_clinical)
+        concepts = self.serialize(doc_clinical)
 
-        events = [Event(concepts=d) for d in diags]
-
-        if len(diags) > 0:
+        if len(concepts) > 0:
             hz = Normalizer(self.good_values_path)
-            diags = hz.normalize(diags)
+            concepts = hz.normalize(concepts)
 
         else : # No detecta diagnostico
            print("No se ha encontrado ")
+
+        events = [Event(concepts=c) for c in concepts]
 
         return events

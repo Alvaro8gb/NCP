@@ -1,7 +1,7 @@
 .PHONY: run
 
 run:
-	python ncp/modules.py 
+	python ncp/pipelines.py 
 
 clean:
 	rm out/multiple/*.json
@@ -21,6 +21,8 @@ count:
 	./couting_file.sh ./out/no_diags
 setup:
 	python setup.py sdist
+make install:
+	pip install dist/ncp-0.0.4.tar.gz
 build-docker:
 	sudo docker build -t ncp .
 run-docker:

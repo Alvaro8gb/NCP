@@ -8,6 +8,7 @@ flask = "==2.3.2"
 spacy-transformers = "==1.2.2"
 textacy = "==0.12.0"
 pydantic = "*"
+pymongo = "*"
 
 [dev-packages]
 

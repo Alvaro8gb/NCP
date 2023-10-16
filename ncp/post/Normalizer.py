@@ -25,11 +25,12 @@ class Normalizer:
 
         return dict_vals
     
-    def normalize(self, diags):
-        for diag in diags:
-            for label, normalizer in self.normalizers.items():
+    def normalize(self, concepts):
+        for c in concepts:
+            for key, val: 
+            if isinstance(c, str):
+                
                 if label in diag:
-                    diag[label] = {"old": diag[label],
-                            "new" : normalizer.normalize(diag[label])
-                        }
+                    diag[label] = normalizer.normalize(diag[label])
+        
         return diags

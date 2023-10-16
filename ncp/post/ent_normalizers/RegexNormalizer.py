@@ -210,19 +210,21 @@ class MolecNormalize(I_Normalize):
 
 class GradeNormalizer(I_Normalize):
 
-    def normalize(grade_list:list):
-        if len(grade_list) == 1:
+    def normalize(self, grade_list:list):
+        #if len(grade_list) == 1:
+        #
+        #    numeros = re.findall(r'\d+', grade_list[0])
+    #
+        #    if len(numeros) == 1:
+        #        grado = numeros[1]
+#
+        #        if grado >=1 and grado <= 3:
+        #            return numeros[1]
+        #    else:
+        #        print(grade_list)
+        #        pass
+        #else:
+        #    print(grade_list)
+        #    pass
         
-            numeros = re.findall(r'\d+', grade_list[0])
-    
-            if len(numeros) == 1:
-                grado = numeros[1]
-
-                if grado >=1 and grado <= 3:
-                    return numeros[1]
-            else:
-                print(grade_list)
-                pass
-        else:
-            print(grade_list)
-            pass
+        return grade_list
