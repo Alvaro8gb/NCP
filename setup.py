@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ncp",
-    version="0.0.4",
+    version="0.0.5",
     author="MEDAL",
     author_email="alvaro.gbarragan@upm.es",
     description="NLP Cancer Pipeline",

@@ -22,7 +22,7 @@ count:
 setup:
 	python setup.py sdist
 make install:
-	pip install dist/ncp-0.0.4.tar.gz
+	pip install dist/ncp-0.0.5.tar.gz
 build-docker:
 	sudo docker build -t ncp .
 run-docker:

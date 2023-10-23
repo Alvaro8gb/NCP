@@ -27,10 +27,8 @@ class Normalizer:
     
     def normalize(self, concepts):
         for c in concepts:
-            for key, val: 
-            if isinstance(c, str):
-                
-                if label in diag:
-                    diag[label] = normalizer.normalize(diag[label])
-        
-        return diags
+            for key, val in c.items():
+                if key in self.normalizers:
+                    c[key] = self.normalizers[key].normalize(val)
+
+        return concepts

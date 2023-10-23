@@ -8,42 +8,38 @@ class TnmNormalize(I_Normalize):
         super().__init__()
         self.pattern = self.__getTnmRE()
     
-    def normalize(self, tnms:list):
-        tnm_dict_list = []
+    def normalize(self, tnm:str):
+        
+        finds = self.pattern.findall(tnm)
+        if len(finds) == 0:
+            return tnm
+        
+        tnm_tuple = finds[0]
+        structured_tnm = {
+                "t": "",
+                "n": "",
+                "m": ""
+        }
 
-        for tnm in tnms:
-            finds = self.pattern.findall(tnm)
-            if len(finds) == 0:
-                continue
-            
-            tnm_tuple = finds[0]
-            structured_tnm = {
-                   "t": "",
-                   "n": "",
-                   "m": ""
-            }
+        ts = ["ti", "tI", "tx", "tX", "t0", "t1", "t2", "t3", "t4", "TI", "Ti", "TX", "Tx", "T0", "T1", "T2", "T3", "T4"]
+        ns = ["ni", "nI", "nx", "nX", "n0", "n1", "n2", "n3", "n4", "NI", "Ni", "NX", "Nx", "N0", "N1", "N2", "N3", "N4"]
+        ms = ["mi", "mI", "mx", "mX", "m0", "m1", "m2", "m3", "m4", "MI", "Mi", "MX", "Mx", "M0", "M1", "M2", "M3", "M4"]
 
-            ts = ["ti", "tI", "tx", "tX", "t0", "t1", "t2", "t3", "t4", "TI", "Ti", "TX", "Tx", "T0", "T1", "T2", "T3", "T4"]
-            ns = ["ni", "nI", "nx", "nX", "n0", "n1", "n2", "n3", "n4", "NI", "Ni", "NX", "Nx", "N0", "N1", "N2", "N3", "N4"]
-            ms = ["mi", "mI", "mx", "mX", "m0", "m1", "m2", "m3", "m4", "MI", "Mi", "MX", "Mx", "M0", "M1", "M2", "M3", "M4"]
+        for elem in tnm_tuple:
+            result = elem.strip()
+            for char in result:
+                if char in [",", ".", ";"]:
+                    result = result.replace(char, "")
 
-            for elem in tnm_tuple:
-                result = elem.strip()
-                for char in result:
-                    if char in [",", ".", ";"]:
-                        result = result.replace(char, "")
+            if any(t in elem for t in ts):
+                
+                structured_tnm["t"] = result
+            elif any(n in elem for n in ns):
+                structured_tnm["n"] = result
+            elif any(m in elem for m in ms):
+                structured_tnm["m"] = result
 
-                if any(t in elem for t in ts):
-                    
-                    structured_tnm["t"] = result
-                elif any(n in elem for n in ns):
-                    structured_tnm["n"] = result
-                elif any(m in elem for m in ms):
-                    structured_tnm["m"] = result
-
-            tnm_dict_list.append(structured_tnm)
-
-        return tnm_dict_list
+        return structured_tnm
     
     @staticmethod
     def __getTnmRE():
@@ -172,45 +168,43 @@ class MolecNormalize(I_Normalize):
         return text.split()
         
 
-    def normalize(self, markers:list):
+    def normalize(self, marker:str):
         normalized = {}
 
-        for marker in markers:
+        mdict = {
+            "numerico": "",
+            "estado": ""
+        }
 
-            mdict = {
-                "numerico": "",
-                "estado": ""
-            }
+        mlist = self.__split(marker)
 
-            mlist = self.__split(marker)
+        for elem in mlist:
+            elem = re.sub(r"pos[a-z]*", r"+", elem)
+            elem = re.sub(r"neg[a-z]*", r"-", elem)
+            elem = re.sub(r"estr[a-z]*", r"re", elem)
+            elem = re.sub(r"prog[a-z]*", r"rp", elem)
 
-            for elem in mlist:
-                elem = re.sub(r"pos[a-z]*", r"+", elem)
-                elem = re.sub(r"neg[a-z]*", r"-", elem)
-                elem = re.sub(r"estr[a-z]*", r"re", elem)
-                elem = re.sub(r"prog[a-z]*", r"rp", elem)
+            if elem == "e":
+                elem = "re"
+            if elem == "p":
+                elem = "rp"
 
-                if elem == "e":
-                    elem = "re"
-                if elem == "p":
-                    elem = "rp"
-
-                if elem in ["re", "rp", "her2", "ki67"]:
-                    normalized[elem] = mdict
-                if elem == "rh":
-                    normalized["re"] = mdict
-                    normalized["rp"] = mdict
-                if elem[len(elem) - 1] == "%" or elem.isnumeric():
-                    mdict["numerico"] = elem
-                if elem in ["+", "-"]:
-                    mdict["estado"] = elem
+            if elem in ["re", "rp", "her2", "ki67"]:
+                normalized[elem] = mdict
+            if elem == "rh":
+                normalized["re"] = mdict
+                normalized["rp"] = mdict
+            if elem[len(elem) - 1] == "%" or elem.isnumeric():
+                mdict["numerico"] = elem
+            if elem in ["+", "-"]:
+                mdict["estado"] = elem
 
         return normalized
 
 
 class GradeNormalizer(I_Normalize):
 
-    def normalize(self, grade_list:list):
+    def normalize(self, grade:str):
         #if len(grade_list) == 1:
         #
         #    numeros = re.findall(r'\d+', grade_list[0])
@@ -227,4 +221,4 @@ class GradeNormalizer(I_Normalize):
         #    print(grade_list)
         #    pass
         
-        return grade_list
+        return grade

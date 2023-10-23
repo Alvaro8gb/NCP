@@ -7,5 +7,5 @@ class SimilarityNormalizer(I_Normalize):
         self.values = values
 
 
-    def normalize(self, elems:list):
-        return ssim.replace_by_similar(elems, self.values)
+    def normalize(self, elem:str):
+        return ssim.replace_by_similar(elem, self.values)

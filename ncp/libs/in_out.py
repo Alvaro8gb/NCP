@@ -22,18 +22,16 @@ def dump2files(struct_notes:List[Note], out_path:str):
     out_path_multiple_diags = out_path +"/multiple/"
     out_path_one_diag = out_path + "/one_diag/"
 
-    for n in struct_notes:
-        
-        if n.events != None:
-            n_events = len(n.events)
+    for n in struct_notes:        
+        n_diags = len(n.diags)
 
-            if n_events > 1:
-                path = out_path_multiple_diags
-            else: 
-                path = out_path_one_diag 
-        else :
+        if n_diags == 0:
             path = out_path_no_diags
-
+        elif n_diags == 1: 
+            path =  out_path_one_diag
+        else:
+            path = out_path_multiple_diags
+            
         path += str(n.ehr)
 
         with open(path + ".json","w") as f:
