@@ -3,7 +3,7 @@ from ncp.clasificator import NLP_NET as nlp
 from ncp.post import Struct as st
 
 from spacy.tokens import Doc
-from models import Note, Entity
+from ncp.models import Note, Entity
 from typing import List
 
 from threading import Thread

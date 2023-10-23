@@ -3,7 +3,7 @@ import json
 from pymongo import MongoClient
 
 from datetime import datetime
-from models import Note
+from ncp.models import Note
 from typing import List
 
 def load_db(in_path:str)-> List[Note]:

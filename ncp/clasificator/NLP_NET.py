@@ -1,7 +1,5 @@
 import spacy
 from spacy.tokens import Doc
-from spacy.tokens import Span
-from models import Entity
 
 def __has_negated_uncertanly(doc):
     ents = set([ ent.label_ for ent in doc.ents])

@@ -3,7 +3,7 @@ from datetime import datetime
 from spacy.tokens import Doc
 
 from typing import List
-from models import Note, Treatment, Diag, Entity, TNM, TRAT_ENTS, DIAG_ENTS, DIAG, TRAT
+from ncp.models import Note, Treatment, Diag, Entity, TNM, TRAT_ENTS, DIAG_ENTS, DIAG, TRAT
 
 
 class Struct:
