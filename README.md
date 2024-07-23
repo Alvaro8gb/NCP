@@ -2,8 +2,14 @@
 
 NCP: a module responsible for converting clinical judgments written in spanish natural language into a JSON format with the most important fields for analysis and data mining.
 
-<img src="static/img/pipeline.png" width="80%" height="auto">
+## Diagrams
 
+### Data Flow
+<img src="static/img/data-flow.png" width="50%" height="auto">
+
+### Technology
+
+<img src="static/img/pipeline.png" width="50%" height="auto">
 
 
 ## Steps
