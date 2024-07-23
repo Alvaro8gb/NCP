@@ -21,19 +21,19 @@ class Concept(BaseModel):
     date: Optional[str] = None
 
 class Diag(Concept):
-    loc: Optional[str]
-    tnm : Optional[TNM]
-    exp: Optional[str]
-    grade: Optional[str]
-    type: Optional[str]
-    subtype: Optional[str]
+    loc: Optional[str] = None
+    tnm : Optional[TNM] = None
+    exp: Optional[str] = None
+    grade: Optional[str] = None
+    type: Optional[str] = None
+    subtype: Optional[str] = None
 
 class Treatment(Concept):
-    drug: Optional[str]
-    freq: Optional[str]
-    interval: Optional[str]
-    quantity: Optional[str]
-    schme: Optional[str]
+    drug: Optional[str] = None
+    freq: Optional[str] = None
+    interval: Optional[str] = None
+    quantity: Optional[str] = None
+    schme: Optional[str] = None
 
 class Entity(BaseModel):
     name: str
@@ -42,7 +42,7 @@ class Entity(BaseModel):
 class Note(BaseModel):
     ehr: int
     text: str
-    text_pre: Optional[str]
+    text_pre: Optional[str] = None
     creation_date: Optional[str] = date.today().isoformat()
     entities: Optional[List[Entity]] = None
     diags: Optional[List[Diag]] = []

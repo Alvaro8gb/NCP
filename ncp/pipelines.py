@@ -27,8 +27,6 @@ class NCP():
         self.pre = Preprocesing(acronyms)
         self.post = st.Struct(good_vals)
 
-   
-
     def pipeline(self, note:Note)->dict:
 
         note.text_pre = self.pre.fix(note.text) # preprocesar el texto:
@@ -65,7 +63,7 @@ def run(ncp:NCP, batch_size:int, notes:List[Note]):
 def multiple():
     ncp = NCP(__ACRONYMS, __GOOD_VALUES, __MAMA_MODEL_PATH, __NEG_UNCERT_MODEL_PATH)
     
-    notes = load_db(__IN_PATH)[:100]
+    notes = load_db(__IN_PATH)[:2]
     
     notes = run(ncp, __BATCH_SIZE, notes)
 
