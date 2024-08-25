@@ -26,8 +26,8 @@ This is done using the [Prodigy](https://prodi.gy/) tool from Explosion.
 NER models, fine-tuned from a pre-trained model.
 
 Two models: 
-- [Breast Cancer Diagnosis NER](https://huggingface.co/Alvaro8gb/es_BreastCancerNER)
-- [Negation & Uncertainly](https://huggingface.co/Alvaro8gb/es_NegUncertaintyNER)
+- [Breast Cancer Diagnosis](https://huggingface.co/Alvaro8gb/es_breast_cancer_ehr_ner)
+- [Negation & Uncertainly](https://huggingface.co/Alvaro8gb/es_neg_uncert_ehr_ner)
 
 ### Postprocessing: 
 
